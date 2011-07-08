@@ -17,7 +17,7 @@ if __name__ == '__main__':
     parser = OptionParser(description=__doc__, version="%%prog v%s" % __version__)
     parser.add_option('-v', '--verbose', action="count", dest="verbose",
         default=2, help="Increase the verbosity. Can be used twice for extra effect.")
-    parser.add_option('-q', '--verbose', action="count", dest="quiet",
+    parser.add_option('-q', '--quiet', action="count", dest="quiet",
         default=0, help="Decrease the verbosity. Can be used twice for extra effect.")
 
     opts, args  = parser.parse_args()
