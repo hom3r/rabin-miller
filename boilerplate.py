@@ -14,11 +14,17 @@ log = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     from optparse import OptionParser
-    parser = OptionParser(description=__doc__, version="%%prog v%s" % __version__)
+    parser = OptionParser(version="%%prog v%s" % __version__,
+            usage="%prog [options] <argument> ...",
+            description=__doc__.replace('\r\n', '\n').split('\n--snip--\n')[0])
     parser.add_option('-v', '--verbose', action="count", dest="verbose",
-        default=2, help="Increase the verbosity. Can be used twice for extra effect.")
+        default=2, help="Increase the verbosity. Use twice for extra effect")
     parser.add_option('-q', '--quiet', action="count", dest="quiet",
-        default=0, help="Decrease the verbosity. Can be used twice for extra effect.")
+        default=0, help="Decrease the verbosity. Use twice for extra effect")
+    #Reminder: %default can be used in help strings.
+
+    # Allow pre-formatted descriptions
+    parser.formatter.format_description = lambda description: description
 
     opts, args  = parser.parse_args()
 
