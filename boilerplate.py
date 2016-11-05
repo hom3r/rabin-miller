@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 """[application description here]"""
 
-__appname__ = "[application name here]"
-__author__  = "Stephan Sokolow (deitarion/SSokolow)"
-__version__ = "0.0pre0"
+__appname__ = "[app name here]"
+__author__  = "David Beran <beran3@gmail.com>"
+__version__ = "0.1"
 __license__ = "GNU GPL 3.0 or later"
 
 import logging
@@ -35,4 +35,3 @@ if __name__ == '__main__':
     opts.verbose = max(opts.verbose, 0)
     logging.basicConfig(level=log_levels[opts.verbose],
                         format='%(levelname)s: %(message)s')
-
