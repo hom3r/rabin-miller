@@ -3,6 +3,7 @@
 """Rabin-Miller Monte Carlo primality test"""
 
 from random import randint
+from decimal import Decimal, localcontext
 from optparse import OptionParser
 
 __appname__ = "rabin-miller"
@@ -12,24 +13,27 @@ __license__ = "GNU GPL 3.0 or later"
 
 def C(sample, d, s, n):
     for a in sample:
-        x = a ** d % n
-
+        b0 = a ** d % n
         restartLoop = False
+
+        print('x = {}'.format(x))
 
         if x is 1 or x is (n - 1):
             continue
         else:
             for r in range(0, s - 1):
                 x = x ** 2 % n
+                status = 'OK' if x is 1 else 'WRONG'
+                print('x_ = {} ({})'.format(x, ))
                 if x is 1:
-                    # print('whitness: {}'.format(a))
+                    print('whitness!!: {}'.format(a))
                     return False
                 elif x is (n - 1):
                     restartLoop = True
                     continue
 
             if not restartLoop:
-                # print('whitness: {}'.format(a))
+                print('whitness: {}'.format(a))
                 return False
 
     return True
@@ -66,13 +70,17 @@ if __name__ == '__main__':
         d = d >> 1
         s = s + 1
 
-    # print('d = {}\ns = {}\n----------'.format(d, s))
+    print('d = {}\ns = {}\n----------'.format(d, s))
 
     # vector of m random numbers to check n against for primality
     x = [randint(1, n) for i in range(1, opts.m)]
 
     if C(sample = x, d = d, s = s, n = n):
-        p = 1 / (2 ** opts.m)
-        print('{} is a prime with probability {}'.format(n, p))
+        with localcontext() as ctx:
+            error = Decimal(1) / (Decimal(4) ** opts.m)
+            p = (1 - error) * 100
+            print('{} is a prime on {}%'.format(n, p))
+            exit(0)
     else:
         print('{} is NOT a prime'.format(n))
+        exit(1)
